@@ -1,5 +1,6 @@
 
 using System;
+using System.Collections;
 using Lists;
 
 namespace Trees
@@ -8,71 +9,127 @@ namespace Trees
     {
         private T Value;
         //TODO #1: Declare a member variable called "Children" as a list of TreeNode<T> objects
-        
+        List<TreeNode<T>> Children;
+
 
         public TreeNode(T value)
         {
             //TODO #2: Initialize member variables/attributes
-            
+            Value = value;
+            Children = new List<TreeNode<T>>();
+
         }
 
         public string ToString(int depth, int index)
         {
             //TODO #3: Uncomment the code below
             
-            //string output = null;
-            //string leftSpace = null;
-            //for (int i = 0; i < depth; i++) leftSpace += " ";
-            //if (leftSpace != null) leftSpace += "->";
+            string output = null;
+            string leftSpace = null;
+            for (int i = 0; i < depth; i++) leftSpace += " ";
+            if (leftSpace != null) leftSpace += "->";
 
-            //output += $"{leftSpace}[{Value}]\n";
+            output += $"{leftSpace}[{Value}]\n";
 
-            //for (int childIndex = 0; childIndex < Children.Count(); childIndex++)
-            //{
-            //    TreeNode<T> child = Children.Get(childIndex);
-            //    output += child.ToString(depth + 1, childIndex);
-            //}
-            //return output;
+            for (int childIndex = 0; childIndex < Children.Count(); childIndex++)
+            {
+                TreeNode<T> child = Children.Get(childIndex);
+                output += child.ToString(depth + 1, childIndex);
+            }
+            return output;
             
-            return null;
+            
         }
 
         public TreeNode<T> Add(T value)
         {
             //TODO #4: Add a new instance of class GenericTreeNode<T> with Value=value. Return the instance we just created
+            TreeNode<T> newNode = new TreeNode<T>(value);
+            Children.Add(newNode);
+
             
-            return null;
+            return newNode;
             
         }
 
         public int Count()
         {
-            //TODO #5: Return the total number of elements in this tree
+
+            int counter;
+            counter += Children.Count();
+
+            foreach (TreeNode<T> i in Children)
+            {
+                if (i.Children.Count() != 0)
+                    i.Count();
+                
+            }
             
-            return 0;
+
+
+            
+            return counter;
             
         }
 
         public int Height()
         {
-            //TODO #6: Return the height of this tree
-            
-            return 0;
-            
+            int max = 0;
+            int heightCount = 0;
+            if (this != null)
+            {
+
+                if (Children != null)
+                {
+                    heightCount++;
+                    if (heightCount > max)
+                        max = heightCount;
+                    foreach (TreeNode<T> i in Children)
+                    {
+                        i.Height();
+                    }
+                }
+                return max;
+            }
+            return -1;
         }
 
-        
 
-        
+
+
         public void Remove(T value)
         {
             //TODO #7: Remove the child node that has Value=value. Apply recursively
+            int index = 0;
+            foreach (TreeNode<T> i in Children)
+            {
+
+                if (i.Value.Equals(value))
+                {
+                    Children.Remove(index);
+                }
+                else
+                {
+                    i.Remove(value);
+                    index++;
+                }
+            }
             
         }
 
         public TreeNode<T> Find(T value)
         {
-            //TODO #8: Return the node that contains this value (it might be this node or a child). Apply recursively
+            if (value.Equals(Value))
+            {
+                return this;
+            }
+            else
+            {
+                foreach (TreeNode<T> i in Children)
+                {
+                    i.Find(value);
+                }
+            }
             
             return null;
         }
@@ -81,6 +138,20 @@ namespace Trees
         public void Remove(TreeNode<T> node)
         {
             //TODO #9: Same as #6, but this method is given the specific node to remove, not the value
+            int index = 0;
+            foreach (TreeNode<T> i in Children)
+            {
+
+                if (i.Equals(node))
+                {
+                    Children.Remove(index);
+                }
+                else
+                {
+                    i.Remove(node);
+                    index++;
+                }
+            }
             
         }
     }
