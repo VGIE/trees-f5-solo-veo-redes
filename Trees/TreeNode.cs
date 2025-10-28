@@ -55,19 +55,21 @@ namespace Trees
         public int Count()
         {
 
-            int counter;
-            counter += Children.Count();
+            int counter=1;
+
 
             foreach (TreeNode<T> i in Children)
             {
                 if (i.Children.Count() != 0)
-                    i.Count();
-                
+                {
+                    counter += i.Count();
+                }
+                else
+                {
+                    counter++;
+                }
             }
-            
-
-
-            
+    
             return counter;
             
         }
@@ -75,23 +77,26 @@ namespace Trees
         public int Height()
         {
             int max = 0;
-            int heightCount = 0;
             if (this != null)
             {
-
-                if (Children != null)
+                if (Children != null && Children.Count() != 0)
                 {
-                    heightCount++;
-                    if (heightCount > max)
-                        max = heightCount;
+                    
+
                     foreach (TreeNode<T> i in Children)
                     {
-                        i.Height();
+                        int height=i.Height();
+
+                        if (max - 1 < height)
+                        {
+                            max = height +1;
+                        }
+
                     }
                 }
                 return max;
             }
-            return -1;
+            return-1;
         }
 
 
@@ -101,17 +106,23 @@ namespace Trees
         {
             //TODO #7: Remove the child node that has Value=value. Apply recursively
             int index = 0;
-            foreach (TreeNode<T> i in Children)
+            if (this != null)
             {
+                if (Children != null && Children.Count() != 0)
+                {
+                    foreach (TreeNode<T> i in Children)
+                    {
 
-                if (i.Value.Equals(value))
-                {
-                    Children.Remove(index);
-                }
-                else
-                {
-                    i.Remove(value);
-                    index++;
+                        if (i.Value.Equals(value))
+                        {
+                            Children.Remove(index);
+                        }
+                        else
+                        {
+                            i.Remove(value);
+                            index++;
+                        }
+                    }
                 }
             }
             
@@ -119,18 +130,32 @@ namespace Trees
 
         public TreeNode<T> Find(T value)
         {
-            if (value.Equals(Value))
+            if (this != null)
             {
-                return this;
-            }
-            else
-            {
-                foreach (TreeNode<T> i in Children)
+
+                if (value.Equals(Value))
                 {
-                    i.Find(value);
+                    return this;
                 }
+                else
+                {
+                    if (Children != null && Children.Count() != 0)
+                    {
+
+                        foreach (TreeNode<T> i in Children)
+                        {
+                            TreeNode<T> candidate = i.Find(value);
+                            if (candidate != null)
+                            {
+                                return candidate;
+                            }
+
+                        }
+
+                    }
+                }
+
             }
-            
             return null;
         }
 
@@ -152,7 +177,7 @@ namespace Trees
                     index++;
                 }
             }
-            
+
         }
     }
 }
