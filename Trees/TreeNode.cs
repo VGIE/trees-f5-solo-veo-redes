@@ -23,7 +23,7 @@ namespace Trees
         public string ToString(int depth, int index)
         {
             //TODO #3: Uncomment the code below
-            
+
             string output = null;
             string leftSpace = null;
             for (int i = 0; i < depth; i++) leftSpace += " ";
@@ -37,8 +37,8 @@ namespace Trees
                 output += child.ToString(depth + 1, childIndex);
             }
             return output;
-            
-            
+
+
         }
 
         public TreeNode<T> Add(T value)
@@ -47,15 +47,15 @@ namespace Trees
             TreeNode<T> newNode = new TreeNode<T>(value);
             Children.Add(newNode);
 
-            
+
             return newNode;
-            
+
         }
 
         public int Count()
         {
 
-            int counter=1;
+            int counter = 1;
 
 
             foreach (TreeNode<T> i in Children)
@@ -69,9 +69,9 @@ namespace Trees
                     counter++;
                 }
             }
-    
+
             return counter;
-            
+
         }
 
         public int Height()
@@ -81,22 +81,22 @@ namespace Trees
             {
                 if (Children != null && Children.Count() != 0)
                 {
-                    
+
 
                     foreach (TreeNode<T> i in Children)
                     {
-                        int height=i.Height();
+                        int height = i.Height();
 
                         if (max - 1 < height)
                         {
-                            max = height +1;
+                            max = height + 1;
                         }
 
                     }
                 }
                 return max;
             }
-            return-1;
+            return -1;
         }
 
 
@@ -125,7 +125,7 @@ namespace Trees
                     }
                 }
             }
-            
+
         }
 
         public TreeNode<T> Find(T value)
@@ -163,21 +163,25 @@ namespace Trees
         public void Remove(TreeNode<T> node)
         {
             //TODO #9: Same as #6, but this method is given the specific node to remove, not the value
-            int index = 0;
-            foreach (TreeNode<T> i in Children)
+            if (this != null)
             {
-
-                if (i.Equals(node))
+                if (Children != null && Children.Count() != 0)
                 {
-                    Children.Remove(index);
-                }
-                else
-                {
-                    i.Remove(node);
-                    index++;
+                    foreach (TreeNode<T> i in Children)
+                    {
+                        int index = Children.Count() - 1;
+                        if (i.Equals(node))
+                        {
+                            Children.Remove(index);
+                        }
+                        else
+                        {
+                            i.Remove(node);
+                        }
+                    }
                 }
             }
-
         }
     }
+            
 }

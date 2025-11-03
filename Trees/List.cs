@@ -97,9 +97,10 @@ public class List<T> : IList<T>
         //TODO #4: remove the element on the index-th position. Do nothing if position is out of bounds
         if (index == 0)
         {
+            T TReturn = First.Value;
             First = First.Next;
             m_numItems--;
-            return First.Value;
+            return TReturn;
             
             }
         if (index == Count() - 1)
