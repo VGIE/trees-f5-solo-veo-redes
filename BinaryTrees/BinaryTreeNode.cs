@@ -169,96 +169,50 @@ namespace BinaryTrees
 
         public BinaryTreeNode<TKey, TValue> Remove(TKey key)
         {
-            if (LeftChild != null && LeftChild.Key.CompareTo(key) == 0)
+
+            if (Key.CompareTo(key) == 0)
             {
-                BinaryTreeNode<TKey, TValue> deleteChild = RightChild;
-                if (RightChild.LeftChild == null)
-                {
-                    if (RightChild.RightChild != null)
-                        RightChild = RightChild.RightChild;
-                    else
-                        RightChild = null;
-                }
-                else if (RightChild.RightChild == null)
-                {
-                    if (RightChild.LeftChild != null)
-                        RightChild = RightChild.LeftChild;
-                    else
-                        RightChild = null;
-
-                }
-                else
-                {
-                    BinaryTreeNode<TKey, TValue> rightlefttNew = RightChild.LeftChild;
-
-                    BinaryTreeNode<TKey, TValue> rightrightNew = RightChild.RightChild;
-
-                    RightChild = rightrightNew;
-                    BinaryTreeNode<TKey, TValue> selectionRight = RightChild;
-                    while (selectionRight.LeftChild != null)
-                    {
-                        selectionRight = selectionRight.LeftChild;
-
-                    }
-                    selectionRight.LeftChild = rightlefttNew;
-
-
-                }
-                 return deleteChild;
-            }
-            else if (RightChild != null && RightChild.Key.CompareTo(key) == 0)
-            {
-                BinaryTreeNode<TKey, TValue> deleteChild = LeftChild;
-                if (LeftChild.RightChild == null)
-                {
-                    if (LeftChild.LeftChild != null)
-                        LeftChild = LeftChild.LeftChild;
-                    else
-                        LeftChild = null;
-                }
-                else if (LeftChild.LeftChild == null)
-                {
-                    if (LeftChild.RightChild != null)
-                        LeftChild = LeftChild.RightChild;
-                    else
-                        LeftChild = null;
-
-                }
-                else
-                {
-                    BinaryTreeNode<TKey, TValue> leftrighttNew = LeftChild.RightChild;
-
-                    BinaryTreeNode<TKey, TValue> leftleftNew = LeftChild.LeftChild;
-
-                    LeftChild = leftleftNew;
-                    BinaryTreeNode<TKey, TValue> selectionLeft = LeftChild;
-                    while (selectionLeft.RightChild != null)
-                    {
-                        selectionLeft = selectionLeft.RightChild;
-
-                    }
-                    selectionLeft.RightChild = leftrighttNew;
-                }
-                return deleteChild;
-            }
-            else if (Key.CompareTo(key) < 0)
-            {
-                if (LeftChild == null)
+                if (RightChild == null && LeftChild == null)
                     return null;
+                else if (RightChild != null && LeftChild == null)
+                {
+                    return RightChild;
+                }
+                else if (LeftChild != null && RightChild == null)
+                    return LeftChild;
                 else
                 {
-                    return LeftChild.Remove(key);
+                    LeftChild.Add(RightChild);
+                    return LeftChild;
                 }
             }
             else if (Key.CompareTo(key) > 0)
             {
-                if (RightChild == null)
-                    return null;
-                else
+                if (RightChild != null)
                 {
-                    return RightChild.Remove(key);
+                    BinaryTreeNode<TKey, TValue> re= RightChild.Remove(key);
+                    if (RightChild.Key.CompareTo(key) == 0)
+                    {
+                        this.RightChild = RightChild.Remove(key);
+                    }
+                return re;
                 }
+            else
+                return null;
             }
+            else if (Key.CompareTo(key) < 0)
+            {
+                if (LeftChild != null)
+                {
+                    BinaryTreeNode<TKey, TValue> re= LeftChild.Remove(key);
+                    if (LeftChild.Key.CompareTo(key) == 0)
+                        this.LeftChild = LeftChild.Remove(key);
+                    return re;
+                }
+                else
+                    return null;
+            }
+
             return null; 
             
            
