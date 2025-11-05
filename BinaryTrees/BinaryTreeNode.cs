@@ -48,7 +48,7 @@ namespace BinaryTrees
             {
                 if (this.LeftChild == null)
                 {
-                    LeftChild = new BinaryTreeNode<TKey, TValue>(node.Key, node.Value);
+                    LeftChild = node;
                     return true;
                 }
                 else
@@ -59,7 +59,7 @@ namespace BinaryTrees
             {
                 if (this.RightChild == null)
                 {
-                    RightChild = new BinaryTreeNode<TKey, TValue>(node.Key, node.Value);
+                    RightChild = node;
                     return true;
                 }
                 else
@@ -182,38 +182,26 @@ namespace BinaryTrees
                     return LeftChild;
                 else
                 {
+                    
                     LeftChild.Add(RightChild);
+
                     return LeftChild;
                 }
             }
             else if (Key.CompareTo(key) > 0)
             {
-                if (RightChild != null)
-                {
-                    BinaryTreeNode<TKey, TValue> re= RightChild.Remove(key);
-                    if (RightChild.Key.CompareTo(key) == 0)
-                    {
-                        this.RightChild = RightChild.Remove(key);
-                    }
-                return re;
-                }
-            else
-                return null;
+                if (RightChild != null) 
+                        RightChild = RightChild.Remove(key);
+                    
+                
             }
             else if (Key.CompareTo(key) < 0)
             {
                 if (LeftChild != null)
-                {
-                    BinaryTreeNode<TKey, TValue> re= LeftChild.Remove(key);
-                    if (LeftChild.Key.CompareTo(key) == 0)
-                        this.LeftChild = LeftChild.Remove(key);
-                    return re;
-                }
-                else
-                    return null;
+                    LeftChild = LeftChild.Remove(key);
             }
 
-            return null; 
+            return this; 
             
            
             //TODO #6: Remove the node that has this key. The parent may need to update one of its children,
