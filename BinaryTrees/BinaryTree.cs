@@ -75,11 +75,19 @@ namespace BinaryTrees
 
         private BinaryTreeNode<TKey, TValue> AddBalanced(TKey[] keys, TValue[] values, int start, int end)
         {
+            if (start <= end && keys != null && values != null)
+            {
+                int middle = start+((end - start) / 2);
+                BinaryTreeNode<TKey, TValue> center = new BinaryTreeNode<TKey, TValue>(keys[middle], values[middle]);
+                center.LeftChild = AddBalanced(keys, values, start, middle - 1);
+                center.RightChild = AddBalanced(keys, values, middle + 1, end);
+                return center;
+             }
             //TODO #7:  Given an array of keys and an array of values, this method must:
             //          - Create a new tree node with the key/values in the center of the [start,end] section of the arrays
             //          - Recursive call to AddBalanced with the elements on the left of center [start,center-1]. Add the result to the new node as LeftNode
             //          - Recursive call to AddBalanced with the elements on the right of center [center+1,end]. Add the result to the new node as RightNode
-            
+
             return null;
             
         }
